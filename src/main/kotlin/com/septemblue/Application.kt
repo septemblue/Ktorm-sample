@@ -1,10 +1,12 @@
 package com.septemblue
 
+import com.septemblue.entities.NoteEntity
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import com.septemblue.plugins.*
 import org.ktorm.database.Database
+import org.ktorm.dsl.insert
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -20,5 +22,16 @@ fun Application.module() {
         user = "root",
         password = databasePassword
     )
-    configureRouting()
+
+    database.insert(NoteEntity) {
+        set(it.note, "Wash Clothes")
+    }
+    database.insert(NoteEntity) {
+        set(it.note, "Buy Groceries")
+    }
+    database.insert(NoteEntity) {
+        set(it.note, "Work Out")
+    }
+
+        configureRouting()
 }

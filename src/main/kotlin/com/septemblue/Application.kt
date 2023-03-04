@@ -6,7 +6,9 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import com.septemblue.plugins.*
 import org.ktorm.database.Database
+import org.ktorm.dsl.from
 import org.ktorm.dsl.insert
+import org.ktorm.dsl.select
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -23,15 +25,11 @@ fun Application.module() {
         password = databasePassword
     )
 
-    database.insert(NoteEntity) {
-        set(it.note, "Wash Clothes")
-    }
-    database.insert(NoteEntity) {
-        set(it.note, "Buy Groceries")
-    }
-    database.insert(NoteEntity) {
-        set(it.note, "Work Out")
-    }
+    var notes = database.from(NoteEntity)
+        .select()
+    for (row in notes) 
+        print("${row.get(NoteEntity.id)} : ${row.get(NoteEntity.note)} \n")
+
 
         configureRouting()
 }

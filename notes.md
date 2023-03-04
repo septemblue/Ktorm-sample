@@ -1,2 +1,2 @@
 # Notes
-- Learn how to read data from database
+- Update and Delete values from database
